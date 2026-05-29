@@ -1,0 +1,18 @@
+{
+	"project": {
+		"name": "3457EJAR",
+		"slot": 1,
+		"description": "Code for Team 3457E from Robolabs Fremont",
+		"platform": "V5",
+		"creationDate": "Mon, 25 May 2026 00:13:11 GMT",
+		"language": "cpp",
+		"sdkVersion": "V5_20240802_15_00_00",
+		"cpp": {
+			"includePath": []
+		}
+	},
+	"extension": {
+		"version": "0.8.2026020401",
+		"json": 1
+	}
+}
