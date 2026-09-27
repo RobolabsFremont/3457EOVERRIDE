@@ -122,11 +122,7 @@ void pre_auton() {
   vexcodeInit();
   default_constants();
   //tuning motors
-  Claw.setPosition(0, deg);
   liftRot.setPosition(0, deg);
-  Claw.setStopping(hold);
-  Claw.setMaxTorque(100, pct);
-  Claw.setVelocity(100, pct);
   Lift.setStopping(brake);
   Lift.setMaxTorque(100, pct);
   Lift.setVelocity(100, pct);
@@ -134,8 +130,11 @@ void pre_auton() {
   RightFront.setStopping(coast);
   LeftBack.setStopping(brake);
   RightBack.setStopping(brake);
-  dihtrain.setVelocity(100, pct);
+  dihtrain.setVelocity(65, pct);
   dihtrain.setMaxTorque(100, pct);
+  LeftBack.setVelocity(55, pct);
+  RightBack.setVelocity(55, pct);
+  ClawToggled = true;
 }
 
 /**
@@ -187,14 +186,18 @@ void usercontrol(void) {
     // }
     // if (Controller.ButtonR2.pressing()){
     //   Lift.spin(forward, 100, pct);
-    // }          
-    if (Controller.ButtonUp.pressing()){
-      Claw.spin(forward, 100, pct);
+    // }
+              
+    if (Controller.ButtonY.pressing()){
+      ClawToggled = !ClawToggled;
     }
-    if (Controller.ButtonDown.pressing()){
-      Claw.spin(reverse, 100, pct);
+    if (ClawToggled) {
+      Claw.set(true);
+    } else {
+      Claw.set(false);
     }
-    if (Controller.ButtonR2.pressing()) {
+
+    if (Controller.ButtonR1.pressing()) {
         usingLiftTarget = false;
         LeftLift.spin(forward, 100, pct);
         RightLift.spin(forward, 100, pct);
@@ -204,7 +207,7 @@ void usercontrol(void) {
           RightLift.stop(hold);
         }
       }
-    if (Controller.ButtonR1.pressing()) {
+    if (Controller.ButtonR2.pressing()) {
         usingLiftTarget = false;
         LeftLift.spin(reverse, 75, pct);
         RightLift.spin(reverse, 75, pct);
@@ -216,28 +219,22 @@ void usercontrol(void) {
       }
     
     // Set lift target.
-    Controller.ButtonA.pressed([] {
-      usingLiftTarget = true;
-      target = target + 180;
-    });
+    // Controller.ButtonA.pressed([] {
+    //   usingLiftTarget = true;
+    //   target = target + 180;
+    // });
 
-    Controller.ButtonB.pressed([] {
-      usingLiftTarget = true;
-      target = target - 180;
-    });
+    // Controller.ButtonB.pressed([] {
+    //   usingLiftTarget = true;
+    //   target = target - 180;
+    // });
 
-    // Compute PID.
-    if (usingLiftTarget){
-      double error = target - liftRot.position(deg);
-      double power = LiftPID.compute(error);
-      Lift.spin(forward, power, percent);
-    }
-
-    if (Controller.ButtonA.pressing()) {
-      Lift.spin(forward, 100, pct);
-      wait(400, msec);
-      Lift.stop(hold);
-    }
+    // // Compute PID.
+    // if (usingLiftTarget){
+    //   double error = target - liftRot.position(deg);
+    //   double power = LiftPID.compute(error);
+    //   Lift.spin(forward, power, percent);
+    // }
     wait(7, msec);// Sleep the task for a short, amount of time to prevent wasted resources.
   }
 }

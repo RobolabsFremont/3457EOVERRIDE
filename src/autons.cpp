@@ -67,4 +67,21 @@ void odom_test(){
   }
 }
 void auton(){
+  start_boundary_monitor();
+  set_boundary(144, 0, 0, 144);
+  chassis.set_coordinates(70, 0, 90);
+  //color < 1 makes it blue, color < 2 makes it red
+  for (int color = 0; color < 1; color++){
+    chassis.drive_distance(5);
+    chassis.drive_distance(-5);
+  }
+  chassis.turn_to_angle(225);
+  chassis.drive_distance(18);
+  Lift.spin(forward, 100, pct);
+  wait(1, sec);
+  Lift.stop(hold);
+  chassis.drive_distance(5);
+  Lift.spin(reverse, 100, pct);
+  wait(1, sec);
+  Lift.stop(hold);
 }
