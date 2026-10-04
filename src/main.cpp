@@ -135,6 +135,7 @@ void pre_auton() {
   LeftBack.setVelocity(55, pct);
   RightBack.setVelocity(55, pct);
   ClawToggled = true;
+  Claw.set(ClawToggled); 
 }
 
 /**
@@ -158,10 +159,14 @@ void autonomous(void) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
-
+void toggleClaw() {
+  ClawToggled = !ClawToggled;
+  Claw.set(ClawToggled);
+}
 void usercontrol(void) {
   // User control code here, inside the loop
   // once you get motors, set stopping to whatever is necesarry(coast, brake, or hold)
+  Controller.ButtonB.pressed(toggleClaw);
   while (1) {
     // LeftLift.setStopping(hold); 
     // RightLift.setStopping(hold);
@@ -187,22 +192,12 @@ void usercontrol(void) {
     // if (Controller.ButtonR2.pressing()){
     //   Lift.spin(forward, 100, pct);
     // }
-              
-    if (Controller.ButtonY.pressing()){
-      ClawToggled = !ClawToggled;
-    }
-    if (ClawToggled) {
-      Claw.set(true);
-    } else {
-      Claw.set(false);
-    }
-
     if (Controller.ButtonR1.pressing()) {
         usingLiftTarget = false;
         LeftLift.spin(forward, 100, pct);
         RightLift.spin(forward, 100, pct);
       } else {
-        if (!usingLiftTarget && !Controller.ButtonR1.pressing() && !Controller.ButtonR2.pressing()) {
+        if (!usingLiftTarget && !Controller.   ButtonR1.pressing() && !Controller.ButtonR2.pressing()) {
           LeftLift.stop(hold);
           RightLift.stop(hold);
         }
