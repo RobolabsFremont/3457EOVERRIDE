@@ -26,6 +26,11 @@ double target = 0;
 rotation liftRot = rotation(PORT9);
 bool usingLiftTarget = false;
 bool ClawToggled = true;
+bool lift_slowed = false;
+int LiftSpeed = 100;
+bool NirvanMode = false;
+bool ArhamMode = true;
+bool DriverMode = true;
 
 
 void vexcodeInit( void ) {

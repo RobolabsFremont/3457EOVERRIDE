@@ -28,5 +28,10 @@ extern motor_group dihtrain;
 extern double A;
 extern double B;
 extern double C;
+extern bool lift_slowed;
+extern int LiftSpeed;
+extern bool NirvanMode;
+extern bool ArhamMode;
+extern bool DriverMode;
 
 void  vexcodeInit( void );

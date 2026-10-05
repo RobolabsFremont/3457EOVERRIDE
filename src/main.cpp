@@ -163,10 +163,25 @@ void toggleClaw() {
   ClawToggled = !ClawToggled;
   Claw.set(ClawToggled);
 }
+void toggleLiftSpeed() {
+  lift_slowed = !lift_slowed;
+  if (lift_slowed) {
+    LiftSpeed = 75;
+    Controller.Screen.clearScreen();
+    Controller.Screen.setCursor(1, 1);
+    Controller.Screen.print("Lift: Slow");
+  } else {
+    LiftSpeed = 100;
+    Controller.Screen.clearScreen();
+    Controller.Screen.setCursor(1, 1);
+    Controller.Screen.print("Lift: Normal");
+  }
+}
 void usercontrol(void) {
   // User control code here, inside the loop
   // once you get motors, set stopping to whatever is necesarry(coast, brake, or hold)
   Controller.ButtonB.pressed(toggleClaw);
+  Controller.ButtonY.pressed(toggleLiftSpeed);
   while (1) {
     // LeftLift.setStopping(hold); 
     // RightLift.setStopping(hold);
@@ -192,20 +207,20 @@ void usercontrol(void) {
     // if (Controller.ButtonR2.pressing()){
     //   Lift.spin(forward, 100, pct);
     // }
-    if (Controller.ButtonR1.pressing()) {
+    if (Controller.ButtonR2.pressing()) {
         usingLiftTarget = false;
-        LeftLift.spin(forward, 100, pct);
-        RightLift.spin(forward, 100, pct);
+        LeftLift.spin(forward, LiftSpeed, pct);
+        RightLift.spin(forward, LiftSpeed, pct);
       } else {
-        if (!usingLiftTarget && !Controller.   ButtonR1.pressing() && !Controller.ButtonR2.pressing()) {
+        if (!usingLiftTarget && !Controller.ButtonR1.pressing() && !Controller.ButtonR2.pressing()) {
           LeftLift.stop(hold);
           RightLift.stop(hold);
         }
       }
-    if (Controller.ButtonR2.pressing()) {
+    if (Controller.ButtonR1.pressing()) {
         usingLiftTarget = false;
-        LeftLift.spin(reverse, 75, pct);
-        RightLift.spin(reverse, 75, pct);
+        LeftLift.spin(reverse, LiftSpeed - 25, pct);
+        RightLift.spin(reverse, LiftSpeed - 25, pct);
       } else {
         if (!usingLiftTarget && !Controller.ButtonR1.pressing() && !Controller.ButtonR2.pressing()) {
           LeftLift.stop(hold);
